@@ -1,0 +1,26 @@
+{
+  "name": "narwallets-ext-bundled-libs",
+  "version": "1.0.0",
+  "description": "Bundled .js low level libs like bip39, pbkdf2 pre-loaded outside of the main App type=module dependency tree",
+  "main": "index.js",
+  "browser": {
+    "events": false
+  },
+  "scripts": {
+    "build": "node build.js",
+    "list": "npx browserify main.js --list",
+    "test": "google-chrome ./test/index.html"
+  },
+  "keywords": [
+    "narwallets"
+  ],
+  "author": "Lucio Tato <luciotato@gmail.com> (https://github.com/luciotato)",
+  "license": "ISC",
+  "dependencies": {
+    "bip39-light": "^1.0.7",
+    "browserify": "^17.0.0",
+    "pbkdf2": "^3.1.1",
+    "safe-buffer": "^5.2.1"
+  },
+  "devDependencies": {}
+}
