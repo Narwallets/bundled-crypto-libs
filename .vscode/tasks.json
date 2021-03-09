@@ -9,5 +9,28 @@
 			"label": "npm: build",
 			"detail": "npx browserify index.js > bundled-libs.js"
 		}
+		,{
+			"type": "shell",
+			"command": "tsc",
+			"args": ["-b","--verbose"],
+			"problemMatcher": {
+				"owner": "typescript",
+				"fileLocation": "relative",
+				"pattern": {
+				  "regexp": "^(.*):(\\d+):(\\d+).*(warning|error)\\s+(.*)$",
+				  "file": 1,
+				  "location": 2,
+				  "severity": 3,
+				  "code": 4,
+				  "message": 5
+				},
+			},
+			"group": {
+				"kind":"build",
+				"isDefault": true,
+			},
+			"label": "tsc -b",
+			"detail": "tsc build"
+		},
 	]
 }

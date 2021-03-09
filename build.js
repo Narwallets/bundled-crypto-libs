@@ -8,7 +8,7 @@ function copyFile(){
     const stat=fs.statSync(outFile)
     console.log(outFile,stat.size)
 
-    fs.copyFileSync(outFile,'../narwallets-extension/extension/bundled-libs.js')
+    //fs.copyFileSync(outFile,'../narwallets-extension/extension/bundled-libs.js')
 }
 
 //--------------------------------
