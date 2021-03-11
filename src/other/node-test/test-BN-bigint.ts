@@ -22,7 +22,7 @@ console.log(JSON.stringify(results))
 */
 
 //const bip39 = require('bip39-light');
-import * as bint from "../lib/crypto-lite/bigint-buffer.js"
+import * as bint from "../../new/lib/crypto-lite/bigint-buffer.js"
 const BN = require('bn.js');
 //const SafeBuffer = require('safe-buffer');
 //const Buffer_from=require('buffer-from')

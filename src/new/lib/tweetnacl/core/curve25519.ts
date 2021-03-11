@@ -28,7 +28,7 @@ export function sel25519(p: NumArray, q: NumArray, b: number) {
     }
 }
 
-export function pack25519(o: ByteArray, n: NumArray) {
+export function pack25519(o: Uint8Array, n: NumArray) {
     const m = gf(), t = gf();
     let i, j, b;
 
@@ -78,7 +78,7 @@ export function par25519(a: NumArray) {
     return d[0] & 1;
 }
 
-export function unpack25519(o: NumArray, n: ByteArray) {
+export function unpack25519(o: NumArray, n: Uint8Array) {
     for (let i = 0; i < 16; i++) o[i] = n[2 * i] + (n[2 * i + 1] << 8);
 
     o[15] &= 0x7fff;

@@ -1,4 +1,4 @@
-import {sign_keyPair_fromSeed} from "../new/tweetnacl/sign.js"
+import {sign_keyPair_fromSeed} from "../tweetnacl/sign.js"
 import {sha512Async} from "../crypto-lite/crypto-primitives-browser.js"
 
 declare type Keys = {

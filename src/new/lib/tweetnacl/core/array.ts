@@ -1,9 +1,7 @@
-export type ByteArray = Uint8Array;
-
-export function ByteArray(n: number | number[] | ArrayBuffer): ByteArray {
+export function ByteArray(n: number): Uint8Array {
     return new Uint8Array(n as number);
 }
-
+/*
 export type HalfArray = Uint16Array;
 
 export function HalfArray(n: number | number[] | ArrayBuffer): HalfArray {
@@ -16,6 +14,7 @@ export function WordArray(n: number | number[] | ArrayBuffer): WordArray {
     return new Uint32Array(n as number);
 }
 
+*/
 export type IntArray = Int32Array;
 
 export function IntArray(n: number | number[] | ArrayBuffer): IntArray {
@@ -28,7 +27,7 @@ export function NumArray(n: number | number[] | ArrayBuffer): NumArray {
     return new Float64Array(n as number);
 }
 
-export function checkArrayTypes(...arrays: ByteArray[]) {
+export function checkArrayTypes(...arrays: Uint8Array[]) {
     for (const array of arrays) {
         if (!(array instanceof Uint8Array)) {
             throw new TypeError('unexpected type, use ByteArray');

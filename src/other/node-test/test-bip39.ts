@@ -20,7 +20,7 @@ results.push(u8arr.toString())
 
 console.log(JSON.stringify(results))
 */
-import * as bp2 from '../lib/crypto-lite/bip39.js';
+import * as bp2 from '../../new/lib/crypto-lite/bip39.js';
 
 const bip39 = require('bip39-light');
 //const SafeBuffer = require('safe-buffer');

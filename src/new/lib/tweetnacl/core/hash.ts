@@ -4,7 +4,7 @@ export const enum HashLength {
     Hash = 64, // hash bytes
 }
 
-export function hash(msg: ByteArray): ByteArray {
+export function hash(msg: Uint8Array): Uint8Array {
     checkArrayTypes(msg);
 
     const h = ByteArray(HashLength.Hash);
@@ -14,7 +14,7 @@ export function hash(msg: ByteArray): ByteArray {
     return h;
 }
 
-export function _hash(out: ByteArray, m: ByteArray, n: number) {
+export function _hash(out: Uint8Array, m: Uint8Array, n: number) {
     const hh = IntArray(8),
         hl = IntArray(8),
         x = ByteArray(256);
@@ -98,7 +98,7 @@ const _K = [
     0x5fcb6fab, 0x3ad6faec, 0x6c44198c, 0x4a475817
 ];
 
-function _hashblocks_hl(hh: IntArray, hl: IntArray, m: ByteArray, n: number): number {
+function _hashblocks_hl(hh: IntArray, hl: IntArray, m: Uint8Array, n: number): number {
     const wh = IntArray(16), wl = IntArray(16);
 
     let bh0, bh1, bh2, bh3, bh4, bh5, bh6, bh7,
@@ -462,7 +462,7 @@ function _hashblocks_hl(hh: IntArray, hl: IntArray, m: ByteArray, n: number): nu
     return n;
 }
 
-function _ts64(x: ByteArray, i: number, h: number, l: number) {
+function _ts64(x: Uint8Array, i: number, h: number, l: number) {
     x[i] = (h >> 24) & 0xff;
     x[i + 1] = (h >> 16) & 0xff;
     x[i + 2] = (h >> 8) & 0xff;

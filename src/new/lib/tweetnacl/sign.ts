@@ -1,3 +1,10 @@
+//------------------------------------------
+//
+// TWEET NACL TYPESCRIPT
+// --ONLY THE MIN REQUIRED TO ED25519--
+//
+//------------------------------------------
+
 import { ByteArray, NumArray, checkArrayTypes } from './core/array.js';
 import { _verify_32 } from './core/verify.js';
 import { gf, gf0, gf1, D2, A, D, S, M, X, Y, Z, I } from './core/core.js';
@@ -13,11 +20,11 @@ export const enum SignLength {
 }
 
 export interface SignKeyPair {
-    publicKey: ByteArray;
-    secretKey: ByteArray;
+    publicKey: Uint8Array;
+    secretKey: Uint8Array;
 }
 
-export function sign(msg: ByteArray, secretKey: ByteArray): ByteArray {
+export function sign(msg: Uint8Array, secretKey: Uint8Array): Uint8Array {
     checkArrayTypes(msg, secretKey);
 
     if (secretKey.length !== SignLength.SecretKey)
@@ -30,7 +37,7 @@ export function sign(msg: ByteArray, secretKey: ByteArray): ByteArray {
     return signedMsg;
 }
 
-export function sign_open(signedMsg: ByteArray, publicKey: ByteArray): ByteArray | undefined {
+export function sign_open(signedMsg: Uint8Array, publicKey: Uint8Array): Uint8Array | undefined {
     checkArrayTypes(signedMsg, publicKey);
 
     if (publicKey.length !== SignLength.PublicKey)
@@ -49,7 +56,7 @@ export function sign_open(signedMsg: ByteArray, publicKey: ByteArray): ByteArray
     return m;
 }
 
-export function sign_detached(msg: ByteArray, secretKey: ByteArray): ByteArray {
+export function sign_detached(msg: Uint8Array, secretKey: Uint8Array): Uint8Array {
     const signedMsg = sign(msg, secretKey);
 
     const sig = ByteArray(SignLength.Signature);
@@ -59,7 +66,7 @@ export function sign_detached(msg: ByteArray, secretKey: ByteArray): ByteArray {
     return sig;
 }
 
-export function sign_detached_verify(msg: ByteArray, sig: ByteArray, publicKey: ByteArray): boolean {
+export function sign_detached_verify(msg: Uint8Array, sig: Uint8Array, publicKey: Uint8Array): boolean {
     checkArrayTypes(msg, sig, publicKey);
 
     if (sig.length !== SignLength.Signature)
@@ -87,7 +94,7 @@ export function sign_keyPair(): SignKeyPair {
     return { publicKey: pk, secretKey: sk };
 }
 
-export function sign_keyPair_fromSecretKey(secretKey: ByteArray): SignKeyPair {
+export function sign_keyPair_fromSecretKey(secretKey: Uint8Array): SignKeyPair {
     checkArrayTypes(secretKey);
 
     if (secretKey.length !== SignLength.SecretKey)
@@ -97,10 +104,10 @@ export function sign_keyPair_fromSecretKey(secretKey: ByteArray): SignKeyPair {
 
     for (let i = 0; i < pk.length; i++) pk[i] = secretKey[32 + i];
 
-    return { publicKey: pk, secretKey: ByteArray(secretKey) };
+    return { publicKey: pk, secretKey: secretKey };
 }
 
-export function sign_keyPair_fromSeed(seed: ByteArray): SignKeyPair {
+export function sign_keyPair_fromSeed(seed: Uint8Array): SignKeyPair {
     checkArrayTypes(seed);
 
     if (seed.length !== SignLength.Seed)
@@ -118,7 +125,7 @@ export function sign_keyPair_fromSeed(seed: ByteArray): SignKeyPair {
 
 // low level
 
-function _sign_keypair(pk: ByteArray, sk: ByteArray, seeded: boolean): number {
+function _sign_keypair(pk: Uint8Array, sk: Uint8Array, seeded: boolean): number {
     const d = ByteArray(64);
     const p = [gf(), gf(), gf(), gf()];
     let i;
@@ -139,7 +146,7 @@ function _sign_keypair(pk: ByteArray, sk: ByteArray, seeded: boolean): number {
 }
 
 // Note: difference from C - smlen returned, not passed as argument.
-function _sign(sm: ByteArray, m: ByteArray, n: number, sk: ByteArray): number {
+function _sign(sm: Uint8Array, m: Uint8Array, n: number, sk: Uint8Array): number {
     const d = ByteArray(64), h = ByteArray(64), r = ByteArray(64);
     const x = NumArray(64);
     const p = [gf(), gf(), gf(), gf()];
@@ -179,7 +186,7 @@ function _sign(sm: ByteArray, m: ByteArray, n: number, sk: ByteArray): number {
     return smlen;
 }
 
-function _sign_open(m: ByteArray, sm: ByteArray, n: number, pk: ByteArray): number {
+function _sign_open(m: Uint8Array, sm: Uint8Array, n: number, pk: Uint8Array): number {
     const t = ByteArray(32), h = ByteArray(64);
     const p = [gf(), gf(), gf(), gf()], q = [gf(), gf(), gf(), gf()];
     let i, mlen;
@@ -214,7 +221,7 @@ function _sign_open(m: ByteArray, sm: ByteArray, n: number, pk: ByteArray): numb
     return mlen;
 }
 
-export function scalarbase(p: NumArray[], s: ByteArray) {
+export function scalarbase(p: NumArray[], s: Uint8Array) {
     const q = [gf(), gf(), gf(), gf()];
 
     set25519(q[0], X);
@@ -226,7 +233,7 @@ export function scalarbase(p: NumArray[], s: ByteArray) {
     scalarmult(p, q, s);
 }
 
-export function scalarmult(p: NumArray[], q: NumArray[], s: ByteArray) {
+export function scalarmult(p: NumArray[], q: NumArray[], s: Uint8Array) {
     let b, i;
 
     set25519(p[0], gf0);
@@ -243,7 +250,7 @@ export function scalarmult(p: NumArray[], q: NumArray[], s: ByteArray) {
     }
 }
 
-function pack(r: ByteArray, p: NumArray[]) {
+function pack(r: Uint8Array, p: NumArray[]) {
     const tx = gf(), ty = gf(), zi = gf();
 
     inv25519(zi, p[2]);
@@ -256,7 +263,7 @@ function pack(r: ByteArray, p: NumArray[]) {
     r[31] ^= par25519(tx) << 7;
 }
 
-function unpackneg(r: NumArray[], p: ByteArray) {
+function unpackneg(r: NumArray[], p: Uint8Array) {
     const
         t = gf(), chk = gf(), num = gf(),
         den = gf(), den2 = gf(), den4 = gf(),
@@ -295,7 +302,7 @@ function unpackneg(r: NumArray[], p: ByteArray) {
     return 0;
 }
 
-function reduce(r: ByteArray) {
+function reduce(r: Uint8Array) {
     const x = NumArray(64);
     let i;
 
@@ -307,7 +314,7 @@ function reduce(r: ByteArray) {
 
 const L = NumArray([0xed, 0xd3, 0xf5, 0x5c, 0x1a, 0x63, 0x12, 0x58, 0xd6, 0x9c, 0xf7, 0xa2, 0xde, 0xf9, 0xde, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x10]);
 
-function modL(r: ByteArray, x: NumArray) {
+function modL(r: Uint8Array, x: NumArray) {
     let carry, i, j, k;
 
     for (i = 63; i >= 32; --i) {

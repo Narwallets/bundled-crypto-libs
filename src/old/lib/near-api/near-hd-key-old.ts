@@ -1,6 +1,6 @@
-import {sign_keyPair_fromSeed} from "./tweetnacl/sign.js"
+import {sign_keyPair_fromSeed} from "../tweetnacl/sign.js"
 
-import type createHmacNamespace from "./bundled-types/create-hmac.js"
+import type createHmacNamespace from "../bundled-types/create-hmac.js"
 declare var createHmacPackage:typeof createHmacNamespace
 const createHmac = createHmacPackage.createHmac
 
